@@ -1,4 +1,5 @@
 import React from 'react'
+import Title from './Title.jsx'
 
 const Features = () => {
     const [isHover, setIsHover] = React.useState(false);
@@ -6,8 +7,24 @@ const Features = () => {
     return (
 
         <div id="features" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 space-y-12 ">
+            
+            <div className="flex items-center divide-x divide-gray-300 py-1 text-sm border border-gray-300 rounded-full">
 
-            <div className="flex flex-col md:flex-row items-center justify-center">
+            <span className="pr-1 pl-3 text-lg">🔥</span>
+
+            <span className="pl-2 pr-5 bg-gradient-to-r from-rose-500 to-indigo-500 font-medium mx-auto text-center block bg-clip-text text-transparent">
+
+                “Resume building made easy with intelligent AI.”
+
+            </span>
+
+        </div>
+        <Title title = "Build your Resume" description = "Our streamlined process helps you create a professional resume in minutes with intelligent AI-powered tools and features." />
+
+
+
+
+            <div className="flex flex-col md:flex-row items-center xl:-mt-30 px-30  ">
 
                 <img className="max-w-2xl w-full xl:-ml-32" src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/features/group-image-1.png" alt="" />
 
@@ -70,6 +87,7 @@ const Features = () => {
                 </div>
 
             </div>
+            
 
             <style>{`
 
