@@ -51,4 +51,78 @@ export const registerUser = async (req, res) => {
     }
 };
 
+//controller for user login
+//POST: /api/users/register
+
+export const loginUser = async (req, res) => {
+    try {
+        const {  email, password } = req.body;
+
+        // Check if user already exists
+        const user = await User.findOne({email})
+        if (!user) {
+            return res.status(400).json({
+                message: "Invalid email or password",
+            });
+        }
+
+        // Check if password is correct
+        if (!user.comparePassword(password)) {
+            return res.status(400).json({
+                message: "Invalid email or password",
+            });
+        }
+
+        
+
+        // return success message
+
+        const token = generateToken(newUser._id)
+        newUser.password = undefined;
+
+        return res.status(201).json({message : "User created Successfully" , token , user: newUser})
+
+    }catch (error) {
+        return res.status(400).json({message : error.message})
+    }
+}
+
+//controller for getting user by id
+//GET: /api/users/data
+export const getUserById = async (req, res) => {
+    try {
+        
+        const userId = req.userId;
+
+        // Check if user exists
+        const user = await User.findById(userId)
+        if (!user) {
+            return res.status(400).json({
+                message: "User not found",
+            });
+        }
+
+        //return user
+        user.password = undefined;
+        return res.status(200).json({user})
+
+    }catch (error) {
+        return res.status(400).json({message : error.message})
+    }
+}
+
+//controller for getting user resumes
+// GET: /api/users/resumes
+
+export const getUserResumes = async (req , res) =>{
+    try{
+        const userId = req.userId;
+
+        // return user resumes
+        const resumes = await Resume.find({userId})
+        return res.status(200).json({resumes})
+    } catch(error) {
+        return res.status(400).json({message: error.message})
+    }
+}
 
