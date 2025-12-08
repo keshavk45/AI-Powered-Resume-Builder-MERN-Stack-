@@ -16,13 +16,10 @@ const ResumeSchema = new mongoose.Schema({
     phone: { type: String, default: '' },
     location: { type: String, default: '' },
     linkedin: { type: String, default: '' },
-    // Note: 'location' is duplicated in the original code, keeping it as is:
     location: { type: String, default: '' }, 
   },
   work_experience: [
     {
-      // 'company' field was not explicitly shown in the first image but is standard, 
-      // adding it for structural completeness:
       company: { type: String }, 
       position: { type: String },
       start_date: { type: String },
