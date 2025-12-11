@@ -44,6 +44,28 @@ export const deleteResume = async(req , res) => {
     }
 }
 
+//get user resume by id
+//GET: /api/resumes/get
+
+export const getResumeById = async (req, res) => {
+    try{
+        const userId = req.userId;
+        const { resumeId } = req.params;
+        const resume = await Resume.findOne({public : true , _id: resumeId})
+
+        if(!resume){
+            return res.status(404).json({message: "Resume not found"})
+        }
+
+        resume.__v = undefined;
+        resume.createdAt = undefined;
+
+        return res.status(200).json({resume})
+    } catch(error) {
+        return res.status(400).json({message : error.message})
+    }
+}
+
 //get resume by id public
 //GET: /api/resumes/public
 
@@ -96,4 +118,7 @@ export const updateResume = async (req , res) =>{
         return res.status(400).json({message : error.message})
     }
 }
+
+
+
 
