@@ -1,6 +1,8 @@
 import OpenAI from "openai";
 
-const openai = new OpenAI({
+const ai = new OpenAI({
     apiKey: "GEMINI_API_KEY",
-    baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
+    baseURL: "OPENAI_BASE_URL"
 });
+
+export default ai
