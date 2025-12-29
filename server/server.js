@@ -7,6 +7,7 @@ import connectDB from "./config/db.js"; //isko import kart waqt .js likhna chahi
 import User from "./models/User.js";
 import userRouter from "./routes/userRoutes.js";
 import resumeRouter from "./routes/resumeRoutes.js";
+import aiRouter from "./routes/aiRoutes.js";
 
 
 
@@ -24,6 +25,7 @@ app.get('/' , (req,res) => (
 ))
 app.use('api/users' , userRouter)
 app.use('api/resumes' , resumeRouter)
+app.use('api/ai' , aiRouter)
 
 app.listen(PORT , () =>{
     console.log(`Server is running on port ${PORT}`)
