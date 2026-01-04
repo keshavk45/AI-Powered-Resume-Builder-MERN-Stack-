@@ -8,6 +8,26 @@ import Login from './pages/Login.jsx';
 import Layout from './pages/Layout.jsx';
 
 const App = () => {
+
+  const dispatch = useDispatch();
+
+  const getUserData = async () => {
+    const token = localStorage.getItem("token");
+    try{
+      if(token){
+        const { data } = await api.get('/api/users/data',{
+          headers: {
+            Authorization: token
+          }
+        })if(data.user){
+          dispatch(login({token,us}))
+    }
+    } catch (error) {
+      console.log("Error fetching user data:", error);
+    }
+  };
+
+
   return (
     <Routes>
       <Route path='/' element={<Home />} />
