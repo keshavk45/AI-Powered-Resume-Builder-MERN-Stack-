@@ -64,6 +64,9 @@ const Hero = () => {
                             Login
 
                         </Link>
+                        <Link to='/app' className="hidden md:block px-8 py-2 bg-green-500 active:scale-95 hover:bg-green-700 transition-all rounded-full text-white" hidden={!user}>
+                            Dashboard
+                        </Link>
                     </div>
 
 
