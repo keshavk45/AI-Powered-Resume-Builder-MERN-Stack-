@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { login, setLoading } from './redux/authSlice'; // Adjust path to your Redux slice
-import api from './api'; // Adjust path to your API instance
+import { login, setLoading } from './app/features/authSlice';
+import api from './api';
 import Home from './pages/Home.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import ResumeBuilder from './pages/ResumeBuilder.jsx';
 import Preview from './pages/preview.jsx';
 import Login from './pages/Login.jsx';
 import Layout from './pages/Layout.jsx';
+import { Toaster } from 'react-hot-toast';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -40,13 +41,15 @@ const App = () => {
   }, []);
 
   return (
+    <>
+    <Toaster />
     <Routes>
       <Route path='/' element={<Home />} />
 
       {/* Auth routes */}
       <Route path='/login' element={<Login />} />
       <Route path='/signup' element={<Login mode="signup" />} />
-      <Route path='/register' element={<Navigate to='/signup' replace />} />
+      <Route path='/register' element={<Navigate to='/signup?state=register' replace />} />
 
       <Route path='/app' element={<Layout />}>
         <Route index element={<Dashboard />} />
@@ -55,6 +58,7 @@ const App = () => {
 
       <Route path='/view/:resumeId' element={<Preview />} />
     </Routes>
+    </>
   );
 };
 
