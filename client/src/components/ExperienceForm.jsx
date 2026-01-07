@@ -25,6 +25,24 @@ const ExperienceForm = ({ data, onChange }) => {
     onChange(updated);
   };
 
+  const generateDescription = async (index) => {
+    setGeneratingIndex(index);
+    const experience = data[index];
+    const prompt = `enhance this job description ${experience.description} for the position of ${experience.position} at ${experience.company}`;
+    // AI description generation logic can be added here
+    try {
+
+      const { data } = await api.post('api/ai/enhance-job-desc', { userContent: prompt }, { headers: { Authorization: token } });
+      updateExperience(index, 'description', data.enhancedContent);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message);
+    } finally {
+      setGeneratingIndex(null);
+    }
+
+
+  }
+
   return (
     <div className="space-y-6">
       <div>
@@ -131,8 +149,10 @@ const ExperienceForm = ({ data, onChange }) => {
                     <label className="flex items-center gap-1 px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors disabled:opacity-50">
                       Job Description
                     </label>
-                    <button className='flex items-center gap-2 px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors '>
+                    <button onClick={() => generateDescription(index)} disabled={generatingIndex === index || !experience.position || !experience.company} className='flex items-center gap-2 px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors '>
+                      {generatingIndex === index ? (<Loader2 className="size-4 animate-spin" />) : (
                       <Sparkles className="size-4"  />
+                      )}
                       Enhance with AI
                     </button>
                   </div>
