@@ -13,6 +13,8 @@ import EducationForm from '../components/EducationForm';
 import ProjectForm from '../components/ProjectForm';
 import SkillsForm from '../components/SkillsForm';
 import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
+import api from '../configs/api.js';
 
 
 const ResumeBuilder = () => {
@@ -112,6 +114,7 @@ const activeSection = sections[activeSectionIndex]
     } catch(error){
       console.error(error.message)
     }
+  }
 
   return (
     <div>
@@ -236,5 +239,5 @@ const activeSection = sections[activeSectionIndex]
     </div>
   )
 }
-}
+
 export default ResumeBuilder;

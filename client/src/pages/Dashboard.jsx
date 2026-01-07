@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import pdftoText from 'react-pdftotext';
+import api from '../configs/api.js';
 
 
 
@@ -32,10 +33,10 @@ const Dashboard = () => {
     try {
       const {data} = await api.get('/api/users/resumes', {headers: { Authorization: token }})
       setAllResumes(data.resumes)
-  } catch (error) {
+    } catch (error) {
       toast.error(error?.response?.data?.message || error.message)
     }
-
+  }
 
   const createResume = async (event) =>{
     try{
@@ -67,28 +68,28 @@ const Dashboard = () => {
   }
 
   const editTitle = async (event) =>{
-    try{
     event.preventDefault()
-    const { data } = await api.put(`/api/resumes/update`,{resumeId: editResumeId , resumeData:{title}}, {headers: { Authorization: token }});
-    setAllResumes(allResumes.map((resume) => resume._id === editResumeId ? {...resume , title: data.resume.title} : resume))
-    setTitle('')
-    setEditResumeId('')
-    toast.success('Resume title updated')
+    try{
+      const { data } = await api.put(`/api/resumes/update`,{resumeId: editResumeId , resumeData:{title}}, {headers: { Authorization: token }});
+      setAllResumes(allResumes.map((resume) => resume._id === editResumeId ? {...resume , title: data.resume.title} : resume))
+      setTitle('')
+      seteditResumeId('')
+      toast.success('Resume title updated')
     } catch(error){
       toast.error(error?.response?.data?.message || error.message)
     }
   }
 
   const deleteResume = async (resumeId) =>{
-    try{
     const confirm = window.confirm('Delete??')
     if(confirm){
-      const{data} = await api.delete(`/api/resumes/delete/${resumeId}`, {headers: { Authorization: token }})
-      setAllResumes(allResumes.filter((resume) => resume._id !== resumeId))
-      toast.success(data.message)
-    }  
-    }catch(error){
-      toast.error(error?.response?.data?.message || error.message)
+      try{
+        const{data} = await api.delete(`/api/resumes/delete/${resumeId}`, {headers: { Authorization: token }})
+        setAllResumes(allResumes.filter((resume) => resume._id !== resumeId))
+        toast.success(data.message)
+      }catch(error){
+        toast.error(error?.response?.data?.message || error.message)
+      }
     }
   }
 
@@ -202,7 +203,6 @@ const Dashboard = () => {
         
     
   )
-}
 }
 
 export default Dashboard;
