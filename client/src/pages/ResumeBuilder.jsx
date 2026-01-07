@@ -12,10 +12,13 @@ import ExperienceForm from '../components/ExperienceForm';
 import EducationForm from '../components/EducationForm';
 import ProjectForm from '../components/ProjectForm';
 import SkillsForm from '../components/SkillsForm';
+import toast from 'react-hot-toast';
+import { set } from 'mongoose';
 
 const ResumeBuilder = () => {
 
   const { resumeId } = useParams()
+  const {token} = useSelector((state) => state.auth);
   const[resumeData , setresumeData ] = useState({
     _id: '',
     title:'',
@@ -31,11 +34,15 @@ const ResumeBuilder = () => {
 })
 
 const loadExistingResume = async() =>{
-  const resume = dummyResumeData.find(resume => resume._id === resumeId)
-  if(resume){
-    setresumeData(resume)
-    document.title = resume.title
-  }
+    try{
+      const { data } = await api.get(`/api/resumes/get/`+ resumeId, {headers: { Authorization: token }});
+      if(data.resume){
+      setResumeData(data.resume)
+      document.title = data.resume.title;
+      }
+    } catch(error){
+      console.log(error.message);
+    }
 }
 
 const [activeSectionIndex , setactiveSectionIndex ] = useState(0)
@@ -58,7 +65,16 @@ const activeSection = sections[activeSectionIndex]
   },[])
 
   const changeResumeVisibility = async() =>{
-    setresumeData({...resumeData,public:!resumeData.public})
+    try{
+      const formData = new FormData();
+      formData.append('resumeId' , resumeId);
+      formData.append('resumeData' , JSON.stringify({public: !resumeData.public}))
+      const { data } = await api.put(`/api/resumes/update`, formData , {headers: { Authorization: token }})
+      setResumeData({...resumeData , public: !resumeData.public})
+      toast.success(data.message)
+    } catch(error){
+      console.error(error.message)
+    }
   }
 
   const handleShare =() =>{
@@ -74,6 +90,29 @@ const activeSection = sections[activeSectionIndex]
   const downloadResume =() => {
   window.print()
 };
+
+  const saveResume = async() =>{
+    try{
+      let updatedResumedata = structuredClone(resumeData);
+
+      //remove image from updatedResumezdata if removeBackground is true
+      if(typeof resumeData.personal_info.image === 'object'){
+        delete updatedResumedata.personal_info.image;
+      }
+      const formData = new FormData();
+      formData.append('resumeId' , resumeId);
+      formData.append('resumeData' , JSON.stringify(updatedResumedata))
+      
+      removeBackground && formData.append('removeBackground' , 'yes');
+      typeof resumeData.personal_info.image === 'object' && formData.append('image' , resumeData.personal_info.image);
+      const { data } = await api.put(`/api/resumes/update`, formData , {headers: { Authorization: token }})
+      setResumeData(data.resume)
+      toast.success(data.message)
+      
+    } catch(error){
+      console.error(error.message)
+    }
+  }
 
   return (
     <div>
