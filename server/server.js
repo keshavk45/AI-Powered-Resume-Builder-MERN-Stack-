@@ -1,4 +1,6 @@
-import "dotenv/config";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 import express from "express";
 import cors from "cors";
@@ -39,5 +41,7 @@ async function startServer() {
     process.exit(1);
   }
 }
+
+
 
 startServer();

@@ -1,4 +1,4 @@
-import { GraduationCap , Plus , Trash2 } from 'lucide-react';
+import { GraduationCap , Plus , Trash2, Calendar } from 'lucide-react';
 import React from 'react'
 
 const EducationForm = ({data , onChange}) => {
@@ -74,7 +74,7 @@ const EducationForm = ({data , onChange}) => {
                     onChange={(e) =>
                       updateEducation(index, 'institution', e.target.value)
                     }
-                    className="px-3 py-2 text-sm"
+                    className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
                   />
 
                   <input
@@ -84,7 +84,7 @@ const EducationForm = ({data , onChange}) => {
                     onChange={(e) =>
                       updateEducation(index, 'degree', e.target.value)
                     }
-                    className="px-3 py-2 text-sm"
+                    className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
                   />
 
                   <input
@@ -94,17 +94,21 @@ const EducationForm = ({data , onChange}) => {
                     onChange={(e) =>
                       updateEducation(index, 'field', e.target.value)
                     }
-                    className="px-3 py-2 text-sm"
+                    className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
                   />
 
-                  <input
-                    type="month"
-                    value={Education.graduation_date || ''}
-                    onChange={(e) =>
-                      updateEducation(index, 'graduation_date', e.target.value)
-                    }
-                    className="px-3 py-2 text-sm"
-                  />
+                  <div className="relative">
+                    <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none w-4 h-4" />
+                    <input
+                      type="month"
+                      placeholder="Graduation Date"
+                      value={Education.graduation_date || ''}
+                      onChange={(e) =>
+                        updateEducation(index, 'graduation_date', e.target.value)
+                      }
+                      className="w-full px-3 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                    />
+                  </div>
                 </div>
 
                 <input
@@ -114,7 +118,7 @@ const EducationForm = ({data , onChange}) => {
                   onChange={(e) =>
                     updateEducation(index, 'gpa', e.target.value)
                   }
-                  className="px-3 py-2 text-sm"
+                  className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none w-full"
                 />
               </div>
             ))}

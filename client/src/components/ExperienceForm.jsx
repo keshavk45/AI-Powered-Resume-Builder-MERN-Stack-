@@ -1,7 +1,12 @@
-import { Briefcase, Sparkles, Trash2, Plus } from 'lucide-react';
-import React from 'react';
+import { Briefcase, Sparkles, Trash2, Plus, Loader2, Calendar } from 'lucide-react';
+import React, { useState } from 'react';
+import toast from 'react-hot-toast';
+import api from '../configs/api.js';
+import { useSelector } from 'react-redux';
 
 const ExperienceForm = ({ data, onChange }) => {
+  const { token } = useSelector((state) => state.auth);
+  const [generatingIndex, setGeneratingIndex] = useState(null);
   const addExperience = () => {
     const newExperience = {
       company: '',
@@ -32,7 +37,7 @@ const ExperienceForm = ({ data, onChange }) => {
     // AI description generation logic can be added here
     try {
 
-      const { data } = await api.post('api/ai/enhance-job-desc', { userContent: prompt }, { headers: { Authorization: token } });
+      const { data } = await api.post('/api/ai/enhance-job-desc', { userContent: prompt }, { headers: { Authorization: token } });
       updateExperience(index, 'description', data.enhancedContent);
     } catch (error) {
       toast.error(error?.response?.data?.message || error.message);
@@ -93,7 +98,7 @@ const ExperienceForm = ({ data, onChange }) => {
                     onChange={(e) =>
                       updateExperience(index, 'company', e.target.value)
                     }
-                    className="px-3 py-2 text-sm rounded-lg"
+                    className="px-3 py-2 text-sm rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
                   />
 
                   <input
@@ -103,31 +108,35 @@ const ExperienceForm = ({ data, onChange }) => {
                     onChange={(e) =>
                       updateExperience(index, 'position', e.target.value)
                     }
-                    className="px-3 py-2 text-sm rounded-lg"
+                    className="px-3 py-2 text-sm rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
                   />
 
-                  <input
-                    
-                    value={experience.start_date || ''}
-                    onChange={(e) =>
-                      updateExperience(index, 'start_date', e.target.value)
-                    }type="month"
-                    className="px-3 py-2 text-sm rounded-lg"
-                  />
+                  <div className="relative">
+                    <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none w-4 h-4" />
+                    <input
+                      type="month"
+                      placeholder="Start Date"
+                      value={experience.start_date || ''}
+                      onChange={(e) =>
+                        updateExperience(index, 'start_date', e.target.value)
+                      }
+                      className="w-full px-3 py-2 pr-10 text-sm rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                    />
+                  </div>
 
-                  <input
-                    value={experience.end_date || ''}
-                    onChange={(e) =>
-                      updateExperience(index, 'end_date', e.target.value)
-                    }
-                    type="month"
-
-
-
-                    
-                    disabled={experience.is_current}
-                    className="px-3 py-2 text-sm rounded-lg disabled:bg-gray-100"
-                  />
+                  <div className="relative">
+                    <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none w-4 h-4" />
+                    <input
+                      type="month"
+                      placeholder="End Date"
+                      value={experience.end_date || ''}
+                      onChange={(e) =>
+                        updateExperience(index, 'end_date', e.target.value)
+                      }
+                      disabled={experience.is_current}
+                      className="w-full px-3 py-2 pr-10 text-sm rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
+                    />
+                  </div>
                 </div>
 
                 <label className="flex items-center gap-2">
