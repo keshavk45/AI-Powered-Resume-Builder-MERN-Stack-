@@ -1,12 +1,13 @@
 import express from "express";
 import * as authMiddleware from "../middlewares/authMiddleware.js";
-import { enhanceJobDescription, enhanceProfessionalSummary, uploadResume } from "../controllers/aiController.js";
+import { enhanceJobDescription, enhanceProfessionalSummary, enhanceProjectDescription, uploadResume } from "../controllers/aiController.js";
 const protect = authMiddleware.default ?? authMiddleware.protect ?? authMiddleware;
 
 const aiRouter = express.Router();
 
 aiRouter.post('/enhance-pro-sum', protect, enhanceProfessionalSummary);
 aiRouter.post('/enhance-job-desc', protect, enhanceJobDescription);
+aiRouter.post('/enhance-project-desc', protect, enhanceProjectDescription);
 aiRouter.post('/upload-resume', protect, uploadResume);
 
 export default aiRouter;

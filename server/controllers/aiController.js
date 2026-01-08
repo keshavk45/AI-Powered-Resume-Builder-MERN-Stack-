@@ -47,6 +47,28 @@ export const enhanceJobDescription = async (req , res) =>{
     }
 }
 
+//controller for enhancing a project description
+// POST: /api/ai/enhance-project-desc
+
+export const enhanceProjectDescription = async (req , res) =>{
+    try{
+        const { userContent } = req.body;
+
+        if(!userContent){
+            return res.status(400).json({message : 'Missing required fields'})
+        }
+        
+        const systemPrompt = "You are an expert resume writer. Transform the project description into 1-2 powerful bullet points highlighting technical skills, impact, and achievements. Use action verbs and quantifiable results. Return ONLY the 1-2 enhanced bullet points, nothing else.";
+        const fullPrompt = `${systemPrompt}\n\nProject description to enhance: ${userContent}`;
+        
+        const enhancedContent = await generateText(fullPrompt);
+        return res.status(200).json({enhancedContent})
+    } catch (error){
+        console.error(error);
+        return res.status(400).json({message: error.message})
+    }
+}
+
     //controller for uploading a resume to the database
 // POST: /api/ai/upload-resume
 
