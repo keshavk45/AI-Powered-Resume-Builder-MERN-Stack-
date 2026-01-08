@@ -36,7 +36,7 @@ export const enhanceJobDescription = async (req , res) =>{
             return res.status(400).json({message : 'Missing required fields'})
         }
         
-        const systemPrompt = "You are an expert in resume writing. Enhance this job description to highlight achievements and impact. Make it compelling and ATS-friendly. Return only the enhanced text.";
+        const systemPrompt = "You are an expert resume writer specializing in ATS-optimized content. Transform the job description into 1-2 powerful bullet points maximum using action verbs and quantifiable results. Focus on impact and achievements. Each line should start with a strong action verb. Return ONLY the 1-2 enhanced bullet points, nothing else.";
         const fullPrompt = `${systemPrompt}\n\nJob description to enhance: ${userContent}`;
         
         const enhancedContent = await generateText(fullPrompt);

@@ -33,19 +33,16 @@ const ExperienceForm = ({ data, onChange }) => {
   const generateDescription = async (index) => {
     setGeneratingIndex(index);
     const experience = data[index];
-    const prompt = `enhance this job description ${experience.description} for the position of ${experience.position} at ${experience.company}`;
-    // AI description generation logic can be added here
+    const prompt = `Position: ${experience.position} at ${experience.company}\nDescription: ${experience.description}\n\nCreate 1-2 concise, powerful bullet points with strong action verbs and quantifiable impact.`;
     try {
-
       const { data } = await api.post('/api/ai/enhance-job-desc', { userContent: prompt }, { headers: { Authorization: token } });
       updateExperience(index, 'description', data.enhancedContent);
+      toast.success('Job description enhanced!');
     } catch (error) {
       toast.error(error?.response?.data?.message || error.message);
     } finally {
       setGeneratingIndex(null);
     }
-
-
   }
 
   return (
