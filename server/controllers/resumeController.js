@@ -33,7 +33,7 @@ export const deleteResume = async(req , res) => {
         const userId = req.userId;
         const {resumeId} = req.params;
 
-        await Resume.findOneAndDelete({ userid , _id: resumeId})
+        await Resume.findOneAndDelete({ userId , _id: resumeId})
 
         //return success message
         return res.status(200).json({message : "Resume deleted successfully",

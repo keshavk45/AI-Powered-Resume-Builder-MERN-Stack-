@@ -29,33 +29,40 @@ const ResumePreview = ({data,template,accentColor,classes = ""}) => {
         <style>
             {`
                 @page{
-                    size : letter;
-                    margin:0;
+                    size: letter;
+                    margin: 0;
                 }
                 @media print{
-                    html,body{
-                        width:8.5in;
-                        height: 11in;
-                        overflow: hidden;
-                        }
+                    html, body{
+                        width: 8.5in;
+                        height: auto;
+                        margin: 0;
+                        padding: 0;
+                        overflow: visible;
+                    }
                     body * {
                         visibility: hidden;
-                        }
-                    #resume-preview , #resume-preview *{
+                    }
+                    #resume-preview, #resume-preview *{
                         visibility: visible;
-                        }
+                    }
                     #resume-preview{
                         position: absolute;
                         left: 0;
                         top: 0;
-                        width: 100%;
+                        width: 8.5in;
                         height: auto;
                         margin: 0;
                         padding: 0;
                         box-shadow: none !important;
                         border: none !important;
-                        }
-                    }                   
+                        page-break-after: auto;
+                    }
+                    #resume-preview > div {
+                        page-break-inside: avoid;
+                        break-inside: avoid;
+                    }
+                }                   
             `}
         </style>
 
