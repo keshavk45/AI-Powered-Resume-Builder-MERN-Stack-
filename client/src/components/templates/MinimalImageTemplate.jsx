@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Globe } from "lucide-react";
 
 const MinimalImageTemplate = ({ data, accentColor }) => {
     const formatDate = (dateStr) => {
@@ -58,7 +58,7 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
                             {data.personal_info?.email && (
                                 <div className="flex items-center gap-2">
                                     <Mail size={14} style={{ color: accentColor }} />
-                                    <span>{data.personal_info.email}</span>
+                                    <span className="break-all">{data.personal_info.email}</span>
                                 </div>
                             )}
                             {data.personal_info?.location && (
@@ -66,6 +66,18 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
                                     <MapPin size={14} style={{ color: accentColor }} />
                                     <span>{data.personal_info.location}</span>
                                 </div>
+                            )}
+                            {data.personal_info?.linkedin && (
+                                <a target="_blank" href={data.personal_info?.linkedin} className="flex items-center gap-2 hover:underline">
+                                    <Linkedin size={14} style={{ color: accentColor }} />
+                                    <span className="break-all text-xs">{data.personal_info.linkedin.split("https://www.")[1] ? data.personal_info.linkedin.split("https://www.")[1] : data.personal_info.linkedin}</span>
+                                </a>
+                            )}
+                            {data.personal_info?.website && (
+                                <a target="_blank" href={data.personal_info?.website} className="flex items-center gap-2 hover:underline">
+                                    <Globe size={14} style={{ color: accentColor }} />
+                                    <span className="break-all text-xs">{data.personal_info.website.split("https://")[1] ? data.personal_info.website.split("https://")[1] : data.personal_info.website}</span>
+                                </a>
                             )}
                         </div>
                     </section>

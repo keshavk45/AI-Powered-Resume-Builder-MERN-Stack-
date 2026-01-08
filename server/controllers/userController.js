@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import Resume from "../models/Resume.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -67,7 +68,8 @@ export const loginUser = async (req, res) => {
         }
 
         // Check if password is correct
-        if (!user.comparePassword(password)) {
+        const isPasswordValid = user.comparePassword(password);
+        if (!isPasswordValid) {
             return res.status(400).json({
                 message: "Invalid email or password",
             });
@@ -77,10 +79,10 @@ export const loginUser = async (req, res) => {
 
         // return success message
 
-        const token = generateToken(newUser._id)
-        newUser.password = undefined;
+        const token = generateToken(user._id)
+        user.password = undefined;
 
-        return res.status(201).json({message : "User created Successfully" , token , user: newUser})
+        return res.status(200).json({message : "User logged in Successfully" , token , user})
 
     }catch (error) {
         return res.status(400).json({message : error.message})
